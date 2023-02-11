@@ -8,6 +8,6 @@ class Routers {
     constructor(){
         this.router = Router();
     }
-}
+} 
 
 export default Routers;

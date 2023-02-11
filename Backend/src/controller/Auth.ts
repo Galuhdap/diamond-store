@@ -5,7 +5,7 @@ import Routers from "./Router/Router";
 
 class AuthController extends Routers {
 
-    model = new User;
+    model = new User; 
 
     constructor(){
         super();
