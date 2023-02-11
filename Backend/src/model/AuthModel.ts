@@ -33,3 +33,5 @@ class Auth{
         return rows as RowDataPacket[];
     }
 }
+
+export default Auth;
