@@ -11,7 +11,7 @@ class GameController extends Routers {
         super();
         this.router.get('/game', this.getId.bind(this));
         this.router.get('/game/:id', this.getById.bind(this));
-        this.router.post('/game', this.createUser.bind(this));
+        this.router.post('/game', this.createGame.bind(this));
         this.router.delete('/game/:id', this.deleteGame.bind(this));
     }
 
@@ -34,7 +34,7 @@ class GameController extends Routers {
         }
     }
     
-    async createUser(req:Request, res:Response){
+    async createGame(req:Request, res:Response){
         try {
             const {name_game} = req.body
             const user = await this.model.insertGame(name_game)

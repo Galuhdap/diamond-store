@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import User from "../model/UserModel";
 import Routers from "./Router/Router";
+import bcrtpy from "bcrypt";
 
 
 class UserController extends Routers {
@@ -37,9 +38,17 @@ class UserController extends Routers {
     
     async createUser(req:Request, res:Response){
         try {
-            const {email, hashpassword, role} = req.body
-            const user = await this.model.createUser(email, hashpassword, role);
-            res.status(200).json({user});
+            const {email, password, confPassword, role} = req.body
+
+            if(password != confPassword) return res.json("Password Tidak Cocok");
+
+            const salt = await bcrtpy.genSalt();
+            const hashPassword = await bcrtpy.hash(password , salt);
+
+            const user = await this.model.createUser(email, hashPassword, role);
+
+            res.status(200).json({msg: "Succes Create"});
+
         } catch (error) {
             res.status(500).json("SERVER ERROR!!");
         }
@@ -48,9 +57,24 @@ class UserController extends Routers {
     async updateUser(req:Request, res:Response){
         try {
             const id = req.params.id;
-            const {email, hashpassword, role} = req.body
-            const user = await this.model.updateUser(email, hashpassword, role, id );
-            res.status(200).json({user});
+            const {email, confPassword,password, role} = req.body;
+
+            let hashPassword;
+            
+            const user = await this.model.getUserByid(id);
+
+            if(!user.length) return res.json({msg: "User Tidak Di Temukan"});
+            if(password != confPassword) return res.json("Password Tidak Cocok");
+
+            if(password == "" && confPassword == null) {
+                hashPassword = user[0].password
+            } else {
+                const salt = await bcrtpy.genSalt();
+                hashPassword = await bcrtpy.compare(password , salt);
+            }
+            
+            const row = await this.model.updateUser(email, hashPassword, role, id );
+            res.status(200).json({msg: "Update Oke"});
         } catch (error) {
             res.status(500).json("SERVER ERROR!!");
         }

@@ -3,7 +3,6 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 
-
 import UserController from './controller/User';
 import TopupController from './controller/TopUp';
 import PlayerController from './controller/Player';
