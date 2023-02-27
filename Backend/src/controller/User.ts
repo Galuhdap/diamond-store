@@ -2,19 +2,21 @@ import { Request, Response } from "express";
 import User from "../model/UserModel";
 import Routers from "./Router/Router";
 import bcrtpy from "bcrypt";
+import VerifyAuth from "../middleware/verifyAuth";
 
 
 class UserController extends Routers {
 
     model = new User;
+    verify =  new VerifyAuth;
 
     constructor(){
         super();
-        this.router.get('/user', this.getId.bind(this));
-        this.router.get('/user/:id', this.getById.bind(this));
-        this.router.post('/user', this.createUser.bind(this));
-        this.router.post('/user/:id', this.updateUser.bind(this));
-        this.router.delete('/user/:id', this.deleteUser.bind(this));
+        this.router.get('/user',this.verify.verifyToken ,this.getId.bind(this));
+        this.router.get('/user/:id', this.verify.verifyToken, this.getById.bind(this));
+        this.router.post('/user', this.verify.verifyToken, this.createUser.bind(this));
+        this.router.post('/user/:id', this.verify.verifyToken, this.updateUser.bind(this));
+        this.router.delete('/user/:id',this.verify.verifyToken, this.deleteUser.bind(this));
     }
 
     async getId(req:Request, res:Response){

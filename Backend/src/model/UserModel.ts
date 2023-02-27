@@ -4,13 +4,13 @@ import dbMysql from "../config/dbMysql";
 class User {
     
     getUser = async () =>  {
-        const Query = `SELECT * FROM users`;
+        const Query = `SELECT id_user, email , role FROM users`;
         const rows = await dbMysql.DB!.execute(Query);
         return rows as RowDataPacket[] 
     }
 
     getUserByid = async (id:String) =>  {
-        const Query = `SELECT * FROM users WHERE id_user = '${id}'`;
+        const Query = `SELECT id_user, email  FROM users WHERE id_user = '${id}'`;
         const rows = await dbMysql.DB!.execute(Query);
         return rows as RowDataPacket[] 
     }

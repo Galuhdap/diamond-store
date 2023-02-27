@@ -2,6 +2,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
+import { initializeApp } from "firebase/app";
 
 import UserController from './controller/User';
 import TopupController from './controller/TopUp';
@@ -10,6 +11,7 @@ import PaymentController from './controller/Payment';
 import GameController from './controller/Game';
 import AuthController from './controller/Auth';
 import dbMysql from './config/dbMysql';
+import Firebase from './config/firebase';
 
 
 
@@ -34,6 +36,7 @@ import dbMysql from './config/dbMysql';
     app.use(new AuthController().router);
 
     await dbMysql.init();
+    await Firebase.init()
 
     app.get('/', (req, res) => res.send('Hello World!'))
     app.listen(port, () => console.log(`Example app listening on port ${port}!`))

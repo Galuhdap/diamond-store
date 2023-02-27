@@ -1,8 +1,10 @@
 import { Request, Response } from "express";
 import Routers from "./Router/Router";
-import bcrypt from 'bcrypt';
+import bcrypt, { genSalt } from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import Auth from "../model/AuthModel";
+import "dotenv/config";
+
 
 
 class AuthController extends Routers {
@@ -11,31 +13,49 @@ class AuthController extends Routers {
 
     constructor(){
         super();
+        this.router.post('/register', this.register.bind(this));
         this.router.post('/login', this.login.bind(this));
         this.router.delete('/logout', this.logout.bind(this));
         
     }
 
+    async register(req:Request , res:Response){
+        const {email, password, confPassword, role} = req.body;
+
+        if(password != confPassword) return res.status(401);
+
+        const salt = await bcrypt.genSalt();
+        const hashPassword = await bcrypt.hash(password , salt);
+
+        await this.model.register(email, hashPassword, role);
+
+        res.status(200).json({msg: "Succes Create"});
+
+    }
+
     async login(req:Request, res:Response){
         try {
             const {email , password} = req.body;
+            console.log(req.body)
             
             const user = await this.model.login(email);
-            console.log(password);
-            console.log(user[0].password);
+
+            if(!user) res.status(400).json({ berhasil: false, data: null , msg:"Email Not Found" });
+
             const match = await bcrypt.compare(password, user[0].password);
-            console.log(match);
-            if (!match) return res.status(400).json({ berhasil: false, data: null });
+
+            if (!match) return res.status(400).json({ berhasil: false, data: null,  msg:"Password Not Found"  });
 
             const id = user[0].id_user;
             const eml = user[0].email; 
             const role = user[0].role; 
             
-            const accesToken =  jwt.sign({id, eml , role} , "U3C32RKIM9C329C9MERIJDF9UCM4M9UTSCIW092UU4DNFDN9JDJDJF" ,{
+
+            const accesToken =  jwt.sign({id, eml , role} , process.env.ACCESTOKEN as string ,{
                 expiresIn: "20s"
             })
             
-            const refreshToken =  jwt.sign({id , eml , role} , "KDMKFMSDMFPK203I23NPJJV4I5IDF37H5HHHICJEWKMFCCIRIR3R23",{
+            const refreshToken =  jwt.sign({id , eml , role} , process.env.REFRESHTOKEN as string ,{
                 expiresIn: "1d"
             })
 

@@ -3,6 +3,12 @@ import dbMysql from "../config/dbMysql"
 
 class Auth{
 
+    register = async (email:String, hashpassword:String, role:String) =>  {
+        const Query = `INSERT INTO users SET email = '${email}', password = '${hashpassword}' , role = '${role}'`;
+        const rows = await dbMysql.DB!.execute(Query);
+        return rows as RowDataPacket[] 
+    }
+
     login = async (email:String) => {
         const Query = `SELECT * FROM users WHERE email = '${email}'`;
         const [rows] = await dbMysql.DB!.execute(Query);
