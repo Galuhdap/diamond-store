@@ -1,16 +1,25 @@
 import { NextFunction, Request, Response } from "express";
-import jwt from "jsonwebtoken";
+import jwt, { JwtPayload } from "jsonwebtoken";
 import Auth from "../model/AuthModel";
+import User from "../model/UserModel";
+import Routers from "../controller/Router/Router";
+import "dotenv/config";
 
 
-class VerifyAuth {
+class VerifyAuth extends Routers {
 
     model = new Auth();
+    users =  new User();
+
+    constructor(){
+        super();
+       // this.router.get('/test', this.verfiyRole.bind(this));
+        this.router.get('/token', this.refreshToken.bind(this));
+    }
 
     async verifyToken(req:Request , res:Response , next:NextFunction) {
         try {
             const authHeaders = req.headers['authorization'];
-            console.log(authHeaders);
             const token = authHeaders && authHeaders.split(' ')[1];
             if(token == null) return res.status(401);
             jwt.verify(token , process.env.ACCESTOKEN as string, (err , decoded) =>{
@@ -19,7 +28,6 @@ class VerifyAuth {
                 next();
             });
         } catch (error) {
-            console.log(error);
             res.status(500).json("SERVER ERROR!!");
         }
     }
@@ -27,9 +35,8 @@ class VerifyAuth {
     async refreshToken(req:Request , res:Response , next:NextFunction){
         try {
             const refreshtoken = req.cookies.refreshToken;
-
+            console.log(refreshtoken);
             if(!refreshtoken) return res.status(401);
-
             const user = await this.model.logout(refreshtoken);
             if(!user[0]) return res.status(401);
 
@@ -39,14 +46,27 @@ class VerifyAuth {
                 const eml = user[0].email; 
                 const role = user[0].role; 
             
-                const accesToken =  jwt.sign({id, eml , role} , "U3C32RKIM9C329C9MERIJDF9UCM4M9UTSCIW092UU4DNFDN9JDJDJF" ,{
+                const accesToken =  jwt.sign({id, eml , role} , process.env.ACCESTOKEN as string ,{
                     expiresIn: "20s"
                 })
-
-                res.status(200).json({payload: accesToken});
+                res.status(200).json({data: accesToken});
             
             })
         } catch (error) {
+            res.status(500).json("SERVER ERROR!!");
+        }
+    }
+
+    async verfiyRole(req:Request , res:Response, next:NextFunction){
+        try {
+            const authHeaders = req.headers['authorization'];
+            const token = authHeaders && authHeaders.split(' ')[1];
+            if(token == null) return res.status(401);
+            const decoded = jwt.verify(token , process.env.ACCESTOKEN as string) as JwtPayload;
+            if(decoded.role !== "admin") return res.status(403).json({msg: "Akses terlarang"});
+            next();
+        } catch (error) {
+            console.log("VerifyRole : " + error);
             res.status(500).json("SERVER ERROR!!");
         }
     }

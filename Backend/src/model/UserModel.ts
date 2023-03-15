@@ -10,7 +10,7 @@ class User {
     }
 
     getUserByid = async (id:String) =>  {
-        const Query = `SELECT id_user, email  FROM users WHERE id_user = '${id}'`;
+        const Query = `SELECT id_user, email, role  FROM users WHERE id_user = '${id}'`;
         const rows = await dbMysql.DB!.execute(Query);
         return rows as RowDataPacket[] 
     }

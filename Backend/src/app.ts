@@ -2,6 +2,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
+import session from 'express-session';
 import { initializeApp } from "firebase/app";
 
 import UserController from './controller/User';
@@ -12,6 +13,7 @@ import GameController from './controller/Game';
 import AuthController from './controller/Auth';
 import dbMysql from './config/dbMysql';
 import Firebase from './config/firebase';
+import VerifyAuth from './middleware/verifyAuth';
 
 
 
@@ -26,7 +28,11 @@ import Firebase from './config/firebase';
     app.use(cors({
         credentials: true,
         origin:"localhost:3000"
-    }))
+    }));
+
+    // app.use(session(
+        
+    // ));
 
     app.use(new UserController().router);
     app.use(new TopupController().router);
@@ -34,6 +40,7 @@ import Firebase from './config/firebase';
     app.use(new PaymentController().router);
     app.use(new GameController().router);
     app.use(new AuthController().router);
+    app.use(new VerifyAuth().router);
 
     await dbMysql.init();
     await Firebase.init()
