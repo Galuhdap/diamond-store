@@ -14,9 +14,9 @@ class UserController extends Routers {
         super();
         this.router.get('/user', this.verify.verifyToken, this.verify.verfiyRole ,this.getId.bind(this));
         this.router.get('/user/:id', this.getById.bind(this));
-        this.router.post('/user', this.createUser.bind(this));
-        this.router.post('/user/:id',  this.updateUser.bind(this));
-        this.router.delete('/user/:id', this.deleteUser.bind(this));
+        this.router.post('/user', this.verify.verifyToken, this.verify.verfiyRole, this.createUser.bind(this));
+        this.router.post('/user/:id', this.verify.verifyToken, this.verify.verfiyRole,  this.updateUser.bind(this));
+        this.router.delete('/user/:id', this.verify.verifyToken, this.verify.verfiyRole, this.deleteUser.bind(this));
     }
 
     async getId(req:Request, res:Response){

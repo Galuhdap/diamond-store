@@ -9,13 +9,24 @@ class PlayerController extends Routers {
 
     constructor(){
         super();
-        this.router.get('/player', this.getId.bind(this));
+        this.router.get('/player', this.getAll.bind(this));
+        this.router.get('/player/:id', this.getById.bind(this));
         this.router.post('/player', this.insertPlayer.bind(this));
     }
 
-    async getId(req:Request, res:Response){
+    async getAll(req:Request, res:Response){
         try {
             const user = await this.model.getAll();
+            res.status(200).json({user});
+        } catch (error) {
+            res.status(500).json("SERVER ERROR!!");
+        }
+    }
+
+    async getById(req:Request, res:Response){
+        try {
+            const id = req.params.id;
+            const user = await this.model.getById(id);
             res.status(200).json({user});
         } catch (error) {
             res.status(500).json("SERVER ERROR!!");

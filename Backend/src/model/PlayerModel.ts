@@ -9,6 +9,12 @@ class Player{
         return rows as RowDataPacket[];
     }
 
+    getById = async (id:string) => {
+        const Query = `SELECT * FROM players where number_player = ${id}`;
+        const rows = await dbMysql.DB!.execute(Query);
+        return rows as RowDataPacket[];
+    }
+
     insertPlayer = async (number_player:String , nama_player:String) => {
         const Query = `INSERT INTO players SET number_player = '${number_player}' , nama_player = '${nama_player}'`;
         const rows = await dbMysql.DB!.execute(Query);

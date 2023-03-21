@@ -1,15 +1,17 @@
 import { Request, Response } from "express";
 import Routers from "./Router/Router";
 import TopUp from "../model/TopUpModel";
+import VerifyAuth from "../middleware/verifyAuth";
 
 
 class TopupController extends Routers {
  
     model = new TopUp;
+    verify =  new VerifyAuth;
 
     constructor(){
         super();
-        this.router.get('/topup', this.getId.bind(this));
+        this.router.get('/topup', this.verify.verifyToken, this.verify.verfiyRole, this.getId.bind(this));
         this.router.get('/topup/:id', this.getById.bind(this));
         this.router.post('/topup', this.createUser.bind(this));
     }

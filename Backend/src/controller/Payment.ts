@@ -1,18 +1,20 @@
 import { Request, Response } from "express";
 import Routers from "./Router/Router";
 import Payment from "../model/PaymentModel";
+import VerifyAuth from "../middleware/verifyAuth";
 
 
 class PaymentController extends Routers {
 
     model = new Payment;
+    verify =  new VerifyAuth;
 
     constructor(){
         super();
-        this.router.get('/payment', this.getId.bind(this));
+        this.router.get('/payment', this.verify.verifyToken, this.verify.verfiyRole, this.getId.bind(this));
         this.router.get('/payment/:id', this.getById.bind(this));
         this.router.post('/payment', this.createUser.bind(this));
-        this.router.delete('/payment/:id', this.deletePayment.bind(this));
+        this.router.delete('/payment/:id', this.verify.verifyToken, this.verify.verfiyRole, this.deletePayment.bind(this));
     }
 
     async getId(req:Request, res:Response){

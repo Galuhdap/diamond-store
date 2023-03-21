@@ -1,18 +1,20 @@
 import { Request, Response } from "express";
 import Routers from "./Router/Router";
 import Game from "../model/GameModel";
+import VerifyAuth from "../middleware/verifyAuth";
 
 
 class GameController extends Routers {
 
     model = new Game;
+    verify =  new VerifyAuth;
 
     constructor(){
         super();
-        this.router.get('/game', this.getId.bind(this));
+        this.router.get('/game', this.verify.verifyToken, this.verify.verfiyRole, this.getId.bind(this));
         this.router.get('/game/:id', this.getById.bind(this));
         this.router.post('/game', this.createGame.bind(this));
-        this.router.delete('/game/:id', this.deleteGame.bind(this));
+        this.router.delete('/game/:id', this.verify.verifyToken, this.verify.verfiyRole, this.deleteGame.bind(this));
     }
 
     async getId(req:Request, res:Response){

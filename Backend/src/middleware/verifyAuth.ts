@@ -13,7 +13,6 @@ class VerifyAuth extends Routers {
 
     constructor(){
         super();
-       // this.router.get('/test', this.verfiyRole.bind(this));
         this.router.get('/token', this.refreshToken.bind(this));
     }
 
