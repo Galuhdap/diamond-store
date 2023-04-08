@@ -5,6 +5,7 @@ import jwt from 'jsonwebtoken';
 import Auth from "../model/AuthModel";
 import "dotenv/config";
 import config from "../web/config";
+import { validateEmail, validatePassword } from "../utils/user";
 
 
 
@@ -25,19 +26,12 @@ class AuthController extends Routers {
             
             const {email, password, confPassword, role} = req.body;
             
-            const pattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    
-            if(!email || !password || !confPassword) return res.status(400).json({msg: "Harus diisi"});
-            
-            if(!pattern.test(email)) return res.status(401).json({msg: "Check Your Email!!"});
-            
-            const regex = /^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$/;
-    
-            const passwordLength = password.length;
-            
-            if(password !== confPassword) return res.status(400).json({msg: "Password dan Confirm Password tidak cocok"});
-            if(passwordLength < 8) return res.status(401).json({msg: "Password must be at least 8 characters long."});
-            if(!regex.test(password)) return res.status(401).json({msg: "Password must contain at least one letter and one number"});
+            try {
+                validateEmail(email);
+                validatePassword(password , confPassword);
+            } catch (error:any) {
+                res.status(401).json(error.message);
+            }
     
             
             const salt = await bcrypt.genSalt();

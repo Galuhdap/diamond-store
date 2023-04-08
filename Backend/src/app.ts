@@ -8,7 +8,7 @@ import { initializeApp } from "firebase/app";
 import UserController from './controller/User';
 import TopupController from './controller/TopUp';
 import PlayerController from './controller/Player';
-import PaymentController from './controller/Payment';
+import PaymentController from './controller/Payment'; 
 import GameController from './controller/Game';
 import AuthController from './controller/Auth';
 import dbMysql from './config/dbMysql';
