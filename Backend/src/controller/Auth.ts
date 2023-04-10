@@ -28,21 +28,12 @@ class AuthController extends Routers {
             
             try {
                 validateEmail(email);
-<<<<<<< Updated upstream
                 validatePassword(password , confPassword);
             } catch (error:any) {
                 res.status(401).json(error.message);
             }
     
             
-=======
-                validatePassword(password, confPassword);
-            } catch (error: any) {
-                return res.status(401).json({msg: error.message});
-
-            }
-
->>>>>>> Stashed changes
             const salt = await bcrypt.genSalt();
             const hashPassword = await bcrypt.hash(password , salt);
     
