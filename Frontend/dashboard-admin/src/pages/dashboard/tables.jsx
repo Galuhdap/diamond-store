@@ -7,19 +7,34 @@ import {
   Chip,
   Tooltip,
   Progress,
+  Input,
 } from "@material-tailwind/react";
 import { EllipsisVerticalIcon } from "@heroicons/react/24/outline";
 import { authorsTableData, projectsTableData } from "@/data";
+import { useState } from "react";
+import { func } from "prop-types";
 
 export function Tables() {
+  const [currentPage, setCurrentPage] = useState(1);
+  const recordsPerPage = 5;
+  const lastIndex = currentPage * recordsPerPage;
+  const firstIndex = lastIndex - recordsPerPage;
+  const records = authorsTableData.slice(firstIndex, lastIndex);
+  const npage = Math.ceil(authorsTableData.length / recordsPerPage);
+  const numbers = [...Array(npage + 1).keys()].slice(1);
+
   return (
     <div className="mt-12 mb-8 flex flex-col gap-12">
       <Card>
-        <CardHeader variant="gradient" color="blue" className="mb-8 p-6">
+        <CardHeader variant="gradient" color="blue" className="mb-8 p-6 ">
           <Typography variant="h6" color="white">
             Order Table
           </Typography>
         </CardHeader>
+        <div className="ml-auto mb-4 md:mr-4 md:w-56">
+          <Input label="Type here" />
+        </div>
+
         <CardBody className="overflow-x-scroll px-0 pt-0 pb-2">
           <table className="w-full min-w-[640px] table-auto">
             <thead>
@@ -49,7 +64,7 @@ export function Tables() {
               </tr>
             </thead>
             <tbody>
-              {authorsTableData.map(
+              {records.map(
                 (
                   {
                     id_pembelian,
@@ -64,7 +79,7 @@ export function Tables() {
                   key
                 ) => {
                   const className = `py-3 px-5 ${
-                    key === authorsTableData.length - 1
+                    key === records.length - 1
                       ? ""
                       : "border-b border-blue-gray-50"
                   }`;
@@ -138,119 +153,95 @@ export function Tables() {
               )}
             </tbody>
           </table>
-        </CardBody>
-      </Card>
-      <Card>
-        <CardHeader variant="gradient" color="blue" className="mb-8 p-6">
-          <Typography variant="h6" color="white">
-            Projects Table
-          </Typography>
-        </CardHeader>
-        <CardBody className="overflow-x-scroll px-0 pt-0 pb-2">
-          <table className="w-full min-w-[640px] table-auto">
-            <thead>
-              <tr>
-                {["companies", "members", "budget", "completion", ""].map(
-                  (el) => (
-                    <th
-                      key={el}
-                      className="border-b border-blue-gray-50 py-3 px-5 text-left"
+          <div class="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6">
+            <div class="hidden sm:flex sm:flex-1 sm:items-center sm:justify-center">
+              <div>
+                <nav
+                  class="isolate inline-flex -space-x-px rounded-md shadow-sm"
+                  aria-label="Pagination"
+                >
+                  <a
+                    href="#"
+                    class="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-gray-300 hover:bg-indigo-500 focus:z-20 focus:outline-offset-0"
+                    onClick={() => prePage()}
+                  >
+                    <span class="sr-only">Previous</span>
+                    <svg
+                      class="h-5 w-5"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                      aria-hidden="true"
                     >
-                      <Typography
-                        variant="small"
-                        className="text-[11px] font-bold uppercase text-blue-gray-400"
+                      <path
+                        fill-rule="evenodd"
+                        d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
+                        clip-rule="evenodd"
+                      />
+                    </svg>
+                  </a>
+                  <span class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-black ring-1 ring-inset ring-gray-300 focus:outline-offset-0">
+                    {numbers.map((n, i) => {
+                      <li
+                        className={`page-item ${
+                          currentPage === i ? "active" : ""
+                        }`}
+                        key={i}
                       >
-                        {el}
-                      </Typography>
-                    </th>
-                  )
-                )}
-              </tr>
-            </thead>
-            <tbody>
-              {projectsTableData.map(
-                ({ img, name, members, budget, completion }, key) => {
-                  const className = `py-3 px-5 ${
-                    key === projectsTableData.length - 1
-                      ? ""
-                      : "border-b border-blue-gray-50"
-                  }`;
-
-                  return (
-                    <tr key={name}>
-                      <td className={className}>
-                        <div className="flex items-center gap-4">
-                          <Avatar src={img} alt={name} size="sm" />
-                          <Typography
-                            variant="small"
-                            color="blue-gray"
-                            className="font-bold"
-                          >
-                            {name}
-                          </Typography>
-                        </div>
-                      </td>
-                      <td className={className}>
-                        {members.map(({ img, name }, key) => (
-                          <Tooltip key={name} content={name}>
-                            <Avatar
-                              src={img}
-                              alt={name}
-                              size="xs"
-                              variant="circular"
-                              className={`cursor-pointer border-2 border-white ${
-                                key === 0 ? "" : "-ml-2.5"
-                              }`}
-                            />
-                          </Tooltip>
-                        ))}
-                      </td>
-                      <td className={className}>
-                        <Typography
-                          variant="small"
-                          className="text-xs font-medium text-blue-gray-600"
-                        >
-                          {budget}
-                        </Typography>
-                      </td>
-                      <td className={className}>
-                        <div className="w-10/12">
-                          <Typography
-                            variant="small"
-                            className="mb-1 block text-xs font-medium text-blue-gray-600"
-                          >
-                            {completion}%
-                          </Typography>
-                          <Progress
-                            value={completion}
-                            variant="gradient"
-                            color={completion === 100 ? "green" : "blue"}
-                            className="h-1"
-                          />
-                        </div>
-                      </td>
-                      <td className={className}>
-                        <Typography
-                          as="a"
+                        <a
                           href="#"
-                          className="text-xs font-semibold text-blue-gray-600"
+                          className="page-item"
+                          onClick={() => changeCPage(i)}
                         >
-                          <EllipsisVerticalIcon
-                            strokeWidth={2}
-                            className="h-5 w-5 text-inherit"
-                          />
-                        </Typography>
-                      </td>
-                    </tr>
-                  );
-                }
-              )}
-            </tbody>
-          </table>
+                          {i}
+                        </a>
+                      </li>;
+                    })}
+                  </span>
+                  <a
+                    href="#"
+                    class="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1  ring-gray-300 hover:bg-indigo-500 focus:z-20 focus:outline-offset-0"
+                    onClick={() => nextPage()}
+                  >
+                    <span class="sr-only">Next</span>
+                    <svg
+                      class="h-5 w-5"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                      aria-hidden="true"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z"
+                        clip-rule="evenodd"
+                      />
+                    </svg>
+                  </a>
+                </nav>
+              </div>
+            </div>
+          </div>
         </CardBody>
       </Card>
     </div>
   );
+
+  function prePage() {
+    if (currentPage !== 1) {
+      setCurrentPage(currentPage - 1);
+      console.log("ini cek prepage: " + setCurrentPage(currentPage - 1));
+    }
+  }
+
+  function changeCPage(id) {
+    setCurrentPage(id);
+    console.log("ini cek id :" + setCurrentPage(id));
+  }
+  function nextPage() {
+    if (currentPage !== npage) {
+      setCurrentPage(currentPage + 1);
+      console.log("ini check NextPage: " + setCurrentPage(currentPage + 1));
+    }
+  }
 }
 
 export default Tables;

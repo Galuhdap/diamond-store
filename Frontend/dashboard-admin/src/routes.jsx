@@ -8,7 +8,7 @@ import {
 } from "@heroicons/react/24/solid";
 import {
   Home,
-  Profile,
+  UserList,
   Tables,
   Notifications,
   Transaksi,
@@ -32,8 +32,8 @@ export const routes = [
       {
         icon: <UserCircleIcon {...icon} />,
         name: "Users",
-        path: "/profile",
-        element: <Profile />,
+        path: "/userlist",
+        element: <UserList />,
       },
       {
         icon: <TableCellsIcon {...icon} />,

@@ -75,7 +75,7 @@ class UserController extends Routers {
                 hashPassword = await bcrtpy.compare(password , salt);
             }
             
-            const row = await this.model.updateUser(email, hashPassword, role, id );
+            await this.model.updateUser(email, hashPassword, role, id );
             res.status(200).json({msg: "Update Oke"});
         } catch (error) {
             res.status(500).json("SERVER ERROR!!");

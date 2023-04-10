@@ -1,6 +1,6 @@
 export const authorsTableData = [
   {
-    id_pembelian: "9993029392342",
+    id_pembelian: "9993029392341",
     player: "099392",
     nick_player: "Jhon Haness",
     payment: "BNI",
@@ -20,7 +20,7 @@ export const authorsTableData = [
     date: "11/01/19",
   },
   {
-    id_pembelian: "9993029392342",
+    id_pembelian: "9993029392343",
     player: "0993949943",
     nick_player: "Jhon Haness",
     payment: "BNI",
@@ -30,7 +30,7 @@ export const authorsTableData = [
     date: "19/09/17",
   },
   {
-    id_pembelian: "9993029392342",
+    id_pembelian: "9993029392344",
     player: "0993949944",
     nick_player: "Jhon Haness",
     payment: "BNI",
@@ -40,7 +40,7 @@ export const authorsTableData = [
     date: "24/12/08",
   },
   {
-    id_pembelian: "9993029392342",
+    id_pembelian: "9993029392345",
     player: "0993949945",
     nick_player: "Jhon Haness",
     payment: "BNI",
@@ -50,7 +50,37 @@ export const authorsTableData = [
     date: "04/10/21",
   },
   {
-    id_pembelian: "9993029392342",
+    id_pembelian: "9993029392346",
+    player: "0993949945",
+    nick_player: "Jhon Haness",
+    payment: "BNI",
+    game: ["Rp.20.000,-", "140 Diamonds"],
+    status: false,
+    phone: "089514677890",
+    date: "14/09/20",
+  },
+  {
+    id_pembelian: "9993029392347",
+    player: "0993949945",
+    nick_player: "Jhon Haness",
+    payment: "BNI",
+    game: ["Rp.20.000,-", "140 Diamonds"],
+    status: false,
+    phone: "089514677890",
+    date: "14/09/20",
+  },
+  {
+    id_pembelian: "9993029392348",
+    player: "0993949945",
+    nick_player: "Jhon Haness",
+    payment: "BNI",
+    game: ["Rp.20.000,-", "140 Diamonds"],
+    status: false,
+    phone: "089514677890",
+    date: "14/09/20",
+  },
+  {
+    id_pembelian: "9993029392349",
     player: "0993949945",
     nick_player: "Jhon Haness",
     payment: "BNI",

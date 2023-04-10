@@ -14,6 +14,7 @@ import AuthController from './controller/Auth';
 import dbMysql from './config/dbMysql';
 import Firebase from './config/firebase';
 import VerifyAuth from './middleware/verifyAuth';
+import CardContoller from './controller/Dashboard/Home/cards';
 
 
 
@@ -41,6 +42,7 @@ import VerifyAuth from './middleware/verifyAuth';
     app.use(new GameController().router);
     app.use(new AuthController().router);
     app.use(new VerifyAuth().router);
+    app.use(new CardContoller().router);
 
     await dbMysql.init();
     await Firebase.init()

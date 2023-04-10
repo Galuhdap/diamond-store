@@ -1,13 +1,17 @@
 import {
   BanknotesIcon,
-  UserPlusIcon,
   UserIcon,
   ChartBarIcon,
+  ClockIcon,
+  CheckCircleIcon,
+  UserGroupIcon,
+  ArrowDownCircleIcon,
+  ArrowUpCircleIcon,
 } from "@heroicons/react/24/solid";
 
 export const statisticsCardsData = [
   {
-    color: "blue",
+    color: "orange",
     icon: BanknotesIcon,
     title: "Today's Money",
     value: "$53k",
@@ -19,8 +23,8 @@ export const statisticsCardsData = [
   },
   {
     color: "pink",
-    icon: UserIcon,
-    title: "Today's Users",
+    icon: UserGroupIcon,
+    title: "Player's",
     value: "2,300",
     footer: {
       color: "text-green-500",
@@ -30,8 +34,8 @@ export const statisticsCardsData = [
   },
   {
     color: "green",
-    icon: UserPlusIcon,
-    title: "New Clients",
+    icon: UserIcon,
+    title: "User's Client",
     value: "3,462",
     footer: {
       color: "text-red-500",
@@ -47,6 +51,54 @@ export const statisticsCardsData = [
     footer: {
       color: "text-green-500",
       value: "+5%",
+      label: "than yesterday",
+    },
+  },
+  {
+    color: "green",
+    icon: CheckCircleIcon,
+    title: "complete Payments",
+    value: "100",
+    users: "Player's",
+    footer: {
+      color: "text-green-500",
+      value: "+5%",
+      label: "than yesterday",
+    },
+  },
+  {
+    color: "orange",
+    icon: ClockIcon,
+    title: "Pending Payments",
+    value: "3462",
+    users: "Player's",
+    footer: {
+      color: "text-red-500",
+      value: "-2%",
+      label: "than yesterday",
+    },
+  },
+  {
+    color: "green",
+    icon: ArrowUpCircleIcon,
+    title: "Order IN",
+    value: "100",
+    users: "Player's",
+    footer: {
+      color: "text-green-500",
+      value: "+5%",
+      label: "than yesterday",
+    },
+  },
+  {
+    color: "red",
+    icon: ArrowDownCircleIcon,
+    title: "Order OUT",
+    value: "3462",
+    users: "Player's",
+    footer: {
+      color: "text-red-500",
+      value: "-2%",
       label: "than yesterday",
     },
   },
