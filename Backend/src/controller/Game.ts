@@ -29,7 +29,7 @@ class GameController extends Routers {
     async getById(req:Request, res:Response){
         try {
             const id = req.params.id;
-            const user = await this.model.getId(id);
+            const user = await this.model.getId((Number(id)));
             res.status(200).json({user});
         } catch (error) {
             res.status(500).json("SERVER ERROR!!");
@@ -41,7 +41,7 @@ class GameController extends Routers {
             const {name_game} = req.body
             const user = await this.model.insertGame(name_game)
             res.status(200).json({user});
-        } catch (error) {
+        } catch (error) { 
             res.status(500).json("SERVER ERROR!!");
         }
     }

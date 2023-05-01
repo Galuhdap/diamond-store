@@ -57,7 +57,7 @@ export const statisticsCardsData = [
   {
     color: "green",
     icon: CheckCircleIcon,
-    title: "complete Payments",
+    title: "Complete\nPayments",
     value: "100",
     users: "Player's",
     footer: {

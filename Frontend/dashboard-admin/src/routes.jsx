@@ -47,12 +47,6 @@ export const routes = [
         path: "/notifactions",
         element: <Notifications />,
       },
-      {
-        icon: <BellIcon {...icon} />,
-        name: "transaksi",
-        path: "/transaksi",
-        element: <Transaksi />,
-      },
     ],
   },
   {

@@ -89,6 +89,16 @@ export const authorsTableData = [
     phone: "089514677890",
     date: "14/09/20",
   },
+  {
+    id_pembelian: "9993029392310",
+    player: "0993949945",
+    nick_player: "Jhon Haness",
+    payment: "BNI",
+    game: ["Rp.20.000,-", "140 Diamonds"],
+    status: true,
+    phone: "089514677890",
+    date: "14/09/20",
+  },
 ];
 
 export default authorsTableData;

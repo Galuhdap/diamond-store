@@ -9,9 +9,9 @@ class Game{
         return rows as RowDataPacket[];
     }
 
-    getId = async (id:String) => {
-        const Query = `SELECT * FROM games WHERE id_games = '${id}'`;
-        const rows = await dbMysql.DB!.execute(Query);
+    getId = async (id:Number) => {
+        const Query = `SELECT * FROM games WHERE id_games = ?`;
+        const rows = await dbMysql.DB!.execute(Query, [id]);
         return rows as RowDataPacket[];
     }
 

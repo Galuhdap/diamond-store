@@ -18,10 +18,37 @@ export function Tables() {
   const [currentPage, setCurrentPage] = useState(1);
   const recordsPerPage = 5;
   const lastIndex = currentPage * recordsPerPage;
+  console.log("ini lastIndex: "+ lastIndex);
+
   const firstIndex = lastIndex - recordsPerPage;
+  console.log("ini firstIndex: "+ firstIndex);
+
   const records = authorsTableData.slice(firstIndex, lastIndex);
+  console.log("ini recorcd: "+records);
+
   const npage = Math.ceil(authorsTableData.length / recordsPerPage);
-  const numbers = [...Array(npage + 1).keys()].slice(1);
+  console.log("ini npage: "+npage);
+
+  const numbers = Array.from({length : npage}, (_ , i) => i+1);
+  console.log("ini numbers: "+numbers);
+
+  function prePage() {
+    if (currentPage !== firstIndex) {
+      setCurrentPage(currentPage - 1);
+      console.log("ini cek prepage: " + setCurrentPage(currentPage - 1));
+    }
+  }
+
+  function changeCPage(id) {
+    setCurrentPage(id);
+    console.log("ini cek id :" + setCurrentPage(id));
+  }
+  function nextPage() {
+    if (currentPage !== lastIndex) {
+      const test = setCurrentPage(currentPage + 1);
+      console.log("ini check NextPage: " + test);
+    }
+  }
 
   return (
     <div className="mt-12 mb-8 flex flex-col gap-12">
@@ -78,12 +105,7 @@ export function Tables() {
                   },
                   key
                 ) => {
-                  const className = `py-3 px-5 ${
-                    key === records.length - 1
-                      ? ""
-                      : "border-b border-blue-gray-50"
-                  }`;
-
+                  const className = `py-3 px-5`;
                   return (
                     <tr key={player}>
                       <td className={className}>
@@ -155,15 +177,15 @@ export function Tables() {
           </table>
           <div class="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6">
             <div class="hidden sm:flex sm:flex-1 sm:items-center sm:justify-center">
-              <div>
+              {/* <div>
                 <nav
                   class="isolate inline-flex -space-x-px rounded-md shadow-sm"
                   aria-label="Pagination"
                 >
                   <a
                     href="#"
-                    class="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-gray-300 hover:bg-indigo-500 focus:z-20 focus:outline-offset-0"
-                    onClick={() => prePage()}
+                    class=" page-link relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-gray-300 hover:bg-indigo-500 focus:z-20 focus:outline-offset-0"
+                    onClick={prePage}
                   >
                     <span class="sr-only">Previous</span>
                     <svg
@@ -182,25 +204,25 @@ export function Tables() {
                   <span class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-black ring-1 ring-inset ring-gray-300 focus:outline-offset-0">
                     {numbers.map((n, i) => {
                       <li
-                        className={`page-item ${
-                          currentPage === i ? "active" : ""
+                        className={`page-number ${
+                          currentPage === n ? 'active' : ' '
                         }`}
                         key={i}
                       >
                         <a
                           href="#"
-                          className="page-item"
-                          onClick={() => changeCPage(i)}
+                          className="page-item page-link"
+                          onClick={() => changeCPage(n)}
                         >
-                          {i}
+                          {n}
                         </a>
                       </li>;
                     })}
                   </span>
                   <a
                     href="#"
-                    class="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1  ring-gray-300 hover:bg-indigo-500 focus:z-20 focus:outline-offset-0"
-                    onClick={() => nextPage()}
+                    class="page-link relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1  ring-gray-300 hover:bg-indigo-500 focus:z-20 focus:outline-offset-0"
+                    onClick={nextPage}
                   >
                     <span class="sr-only">Next</span>
                     <svg
@@ -217,31 +239,33 @@ export function Tables() {
                     </svg>
                   </a>
                 </nav>
-              </div>
+              </div> */}
+            <nav>
+              <ul className="pagination">
+                <li className="page-item">
+                  <a href="#" className="Page-link" onClick={prePage}>Prev</a>
+                </li>
+                {
+                  numbers.map((n,i) => (
+                    <li className={`page-item ${currentPage === n ? 'active' : ''}`} key={i} >
+                      <a href="#" className="page-item" onClick={()=>currentPage(n)}>{n}</a>
+                    </li>
+                  ))
+                }
+                <li className="page-item">
+                  <a href="#" className="Page-link" onClick={nextPage}>Next</a>
+                </li>
+              </ul>
+            </nav>
+            
             </div>
           </div>
         </CardBody>
       </Card>
     </div>
-  );
+  )
 
-  function prePage() {
-    if (currentPage !== 1) {
-      setCurrentPage(currentPage - 1);
-      console.log("ini cek prepage: " + setCurrentPage(currentPage - 1));
-    }
-  }
-
-  function changeCPage(id) {
-    setCurrentPage(id);
-    console.log("ini cek id :" + setCurrentPage(id));
-  }
-  function nextPage() {
-    if (currentPage !== npage) {
-      setCurrentPage(currentPage + 1);
-      console.log("ini check NextPage: " + setCurrentPage(currentPage + 1));
-    }
-  }
+ 
 }
 
 export default Tables;
